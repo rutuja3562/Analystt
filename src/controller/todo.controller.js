@@ -8,7 +8,7 @@ router.get("", async (req, res) => {
     const keyword = req.query.search
       ? {
           $or: [
-            { staus: { $regex: req.query.search, $options: "i" } },
+            { status: { $regex: req.query.search, $options: "i" } },
             
           ],
         }
