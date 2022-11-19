@@ -5,20 +5,17 @@ const path = require("path");
 
 router.get("", async (req, res) => {
   try {
-    const keyword = req.query.search
-      ? {
-          $or: [
-            { status: { $regex: req.query.search, $options: "i" } },
-            
-          ],
-        }
-      : {};
-
-    //*****Searching*****//
-    const todos = await Todos.find(keyword)
-      
-
-    return res.send(todos);
+ if(req.query.search!=undefined){
+  var keyword = req.query.search =="false"?"false":"true"
+ }
+  
+if(keyword){
+ const todos = await Todos.find({status:keyword})
+ return res.send(todos);
+}else{
+ const todos = await Todos.find({})
+ return res.send(todos);
+  }
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -50,9 +47,6 @@ router.get("/:id", async (req, res) => {
 // met + route => patch /users/${variable} and the name of variable is id
 router.patch("/:id", async (req, res) => {
 
-  console.log("KLKL")
-  console.log( req.params.id,req.body,)
-  
   try {
     const todos = await Todos.findByIdAndUpdate(
       req.params.id,
