@@ -5,17 +5,17 @@ const path = require("path");
 
 router.get("", async (req, res) => {
   try {
-    // const keyword = req.query.search
-    //   ? {
-    //       $or: [
-    //         { brand: { $regex: req.query.search, $options: "i" } },
-    //         { title: { $regex: req.query.search, $options: "i" } },
-    //       ],
-    //     }
-    //   : {};
+    const keyword = req.query.search
+      ? {
+          $or: [
+            { staus: { $regex: req.query.search, $options: "i" } },
+            
+          ],
+        }
+      : {};
 
     //*****Searching*****//
-    const todos = await Todos.find()
+    const todos = await Todos.find(keyword)
       
 
     return res.send(todos);
